@@ -2,11 +2,13 @@
 #include "types.h"
 #include <iostream>
 
-namespace day {
-	Day::Day(std::chrono::system_clock::time_point time_point) {
-		this->time = std::chrono::system_clock::to_time_t(time_point);
+using namespace std;
 
-		struct tm *timeinfo = std::localtime(&(this->time));
+namespace day {
+	Day::Day(chrono::system_clock::time_point time_point) {
+		this->time = chrono::system_clock::to_time_t(time_point);
+
+		struct tm *timeinfo = localtime(&(this->time));
 
 		this->week_day = timeinfo->tm_wday;
 		this->year_day = timeinfo->tm_yday;
@@ -16,54 +18,52 @@ namespace day {
 	Day::~Day() {}
 
 	void Day::print_date() const {
-		std::cout << "Full date: " << std::ctime(&(this->time));
+		cout << "Full date: " << ctime(&(this->time));
 	}
 
 	void Day::print_week_day() const {
-		std::cout << "Day of the week starting from Sunday: " << this->week_day << "\n";
-
-		std::string days[max_num_days] = {"Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"};
-		std::cout << "Day of the week: " << days[this->week_day] << std::endl;
+		string days[MAX_NUM_DAYS] = {"Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"};
+		cout << "Day of the week: " << days[this->week_day] << '\n' << endl;
 	}
 
 	void Day::print_year_day() const {
-		std::cout << "Day of the year: " << this->year_day << std::endl;
+		cout << "Day of the year: " << this->year_day << endl;
 	}
 
 	void Day::print_trash() const {
-		std::cout << "What is thrown away today:\n";
+		cout << "What is thrown away today:\n";
 
 		switch (this->week_day) {
-			case sunday:
-				std::cout << "Organic" << std::endl;
+			case SUNDAY:
+				cout << "Organic" << endl;
 				break;
-			case monday:
-				std::cout << "Nothing" << std::endl;
+			case MONDAY:
+				cout << "Nothing" << endl;
 				break;
-			case tuesday:
-				std::cout << "Nothing" << std::endl;
+			case TUESDAY:
+				cout << "Nothing" << endl;
 				break;
-			case wednesday:
-				std::cout << "Organic\n";
-				std::cout << "Dry" << std::endl;
+			case WEDNESDAY:
+				cout << "Organic\n";
+				cout << "Dry" << endl;
 				break;
-			case thursday:
-				std::cout << "It depends..." << std::endl;
+			case THURSDAY:
+				cout << "It depends..." << endl;
 				print_year_day();
 
-				if ((this->year_day + 1) % 14 == 1) std::cout << "Plastic" << std::endl;
-				else if ((this->year_day + 1) % 14 == 8) std::cout << "Paper" << std::endl;
-				else std::cerr << "Error" << std::endl;
+				if ((this->year_day + 1) % 14 == 1) cout << "Plastic" << endl;
+				else if ((this->year_day + 1) % 14 == 8) cout << "Paper" << endl;
+				else cerr << "Error" << endl;
 
 				break;
-			case friday:
-				std::cout << "Nothing" << std::endl;
+			case FRIDAY:
+				cout << "Nothing" << endl;
 				break;
-			case saturday:
-				std::cout << "Nothing" << std::endl;
+			case SATURDAY:
+				cout << "Nothing" << endl;
 				break;
 			default:
-				std::cerr << "Error" << std::endl;
+				cerr << "Error" << endl;
 				break;
 		}
 	}
